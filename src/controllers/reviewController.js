@@ -137,6 +137,8 @@ const updateReview = async function (req, res){
         }
     }
 
+        if(checkReview.bookId != book_id) return res.status(404).send({status: false, message: 'No such review for that particular book'})
+
         if (checkBook.isDeleted == true||checkReview.isDeleted==true){
         return res.status(400).send({ status: false, message: "Can't update review of a Deleted Book " })
         }

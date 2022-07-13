@@ -22,7 +22,7 @@ const createBook = async function (req, res) {
 
         
         if (!isValid(excerpt))return res.status(400).send({ Status: false, message: "Excerpt Is Required" });
-        if (!isValidBody(excerpt))return res.status(400).send({ Status: false, message: "Excerpt Is Invalid" });
+        //if (!isValidBody(excerpt))return res.status(400).send({ Status: false, message: "Excerpt Is Invalid" });
       
        
         if (!isValid(userId))return res.status(400).send({ Status: false, message: "UserId Is Required" });
@@ -49,7 +49,7 @@ const createBook = async function (req, res) {
             
         if("reviews"in data){
         if (!isValid(reviews))return res.status(400).send({ Status: false, message: "Reviews Is Required" });
-        if (!isValidReview(reviews))return res.status(400).send({ Status: false, message: "Reviews Is Invalid" });
+        //if (!isValidReview(reviews))return res.status(400).send({ Status: false, message: "Reviews Is Invalid" });
         }
 
         if (!isValid(releasedAt)) return res.status(400).send({ Status: false, message: "ReleasedAt Is Required" });
@@ -213,11 +213,3 @@ const deleteBookById = async function (req, res) {
 
 
 module.exports = { createBook, getAllBooks, getBookById, updateBook, deleteBookById }
-
-
-
-
-
-
-
-
