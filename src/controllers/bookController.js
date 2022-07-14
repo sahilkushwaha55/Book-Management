@@ -43,7 +43,6 @@ const createBook = async function (req, res) {
 
         if (!isValid(subCategory))return res.status(400).send({ Status: false, message: "subCategory Is Required" });
         if (!isValidBody(subCategory))return res.status(400).send({ Status: false, message: "subCategory Is Invalid" });
-        //subCategory=subCategory.trim()
             
         if("reviews"in data){
         if (!isValid(reviews))return res.status(400).send({ Status: false, message: "Reviews Is Required" });
@@ -118,14 +117,12 @@ const getBookById = async function (req, res) {
         if(!isValid(bookId)) return res.status(400).send({status:false,message:"bookId can;t be blanked"})
         if (!isValidObjectId(bookId)) return res.status(400).send({ status: false, message: "Invalid bookId." })
 
-        let checkBook = await bookModel.findOne({ _id: bookId, isDeleted: false })
+        let checkBook = await bookModel.findOne({ _id: bookId, isDeleted: false }).select({__v:0})
         if (!checkBook) return res.status(404).send({ status: false, message: "BookId Not Found" })
 
         const getReviewsData = await reviewModel.find({ bookId: checkBook._id, isDeleted: false }).select({ deletedAt: 0, isDeleted:0 , createdAt: 0, __v: 0, updatedAt: 0 })
-       
-        let { _id, title, excerpt, userId ,category, subcategory, isDeleted, reviews, releasedAt, createdAt, updatedAt} = checkBook
-        let reviewsData = getReviewsData
-        let result = { _id, title, excerpt, userId ,category, subcategory, isDeleted, reviews, releasedAt, createdAt, updatedAt , reviewsData}
+        let result = checkBook.toObject()
+        result.reviewsData = getReviewsData
 
          return res.status(200).send({ status: true, message: "Books List", data: result })
 
